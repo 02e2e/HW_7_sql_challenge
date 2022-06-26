@@ -1,7 +1,11 @@
+
+
+---3rd Iteration ________________________________________
+ 
+
 -- Drop table if exists
 DROP TABLE IF EXISTS employees;
 
-DROP TABLE IF EXISTS salaries;
 
 --Create new tables to import data
 CREATE TABLE employees (
@@ -11,37 +15,72 @@ CREATE TABLE employees (
     first_name VARCHAR (30), 
     last_name VARCHAR (30),
 	sex VARCHAR(10),
-    hire_date DATE NOT NULL
-	
+    hire_date DATE NOT NULL 
 );
-
-CREATE TABLE salaries (
-	emp_no INT PRIMARY KEY,
-	salary INT
-);
-
--- Import data from mys_road_accidents.csv
+-- Import data 
 -- View the table to ensure all data has been imported correctly
 SELECT * FROM employees;
 
--- Import data from mys_accidents_by_state.csv
+
+DROP TABLE IF EXISTS departments; 
+
+CREATE TABLE departments ( 
+    dept_no TEXT PRIMARY KEY, 
+    dept_name VARCHAR (30) NOT NULL
+);
+-- Import data 
+-- View the table to ensure all data has been imported correctly
+SELECT * FROM departments; 
+
+DROP TABLE IF EXISTS dept_emp;
+
+CREATE TABLE dept_emp (
+    emp_no	INT NOT NULL,
+	dept_no TEXT NOT NULL,
+    FOREIGN KEY (emp_no) REFERENCES employees(emp_no),
+    FOREIGN KEY (dept_no) REFERENCES departments(dept_no)
+);
+-- Import data 
+-- View the table to ensure all data has been imported correctly
+SELECT * FROM dept_emp; 
+
+DROP TABLE IF EXISTS dept_manager;
+
+CREATE TABLE dept_manager (
+	dept_no TEXT NOT NULL, 
+    emp_no INT NOT NULL, 
+    FOREIGN KEY (dept_no) REFERENCES departments(dept_no),
+    FOREIGN KEY (emp_no) REFERENCES employees(emp_no)
+);
+-- Import data 
+--View the table to ensure all data has been imported correctly
+SELECT * FROM dept_manager
+
+DROP TABLE IF EXISTS salaries;
+
+CREATE TABLE salaries (
+	emp_no INT NOT NULL,
+	salary INT,
+    FOREIGN KEY (emp_no) REFERENCES employees(emp_no)
+);
+-- Import data 
 -- View the table to ensure all data has been imported correctly
 SELECT * FROM salaries;
 
+DROP TABLE IF EXISTS titles;
 
---Do an inner join on emp_no for both tables 
-SELECT employees.emp_no, employees.birth_data, employees.first_name, employees.last_name, employees.sex, employees.hire_date, salaries.salary
-FROM employees
-INNER JOIN salaries ON 
-employees.emp_no = salaries.emp_no; 
-
--- 1. list the following details of each employee: employee number, last name, first name, sex, and salary 
-
-SELECT employees.first_name, employees.last_name, employees.sex, salaries.salary
-FROM employees
-INNER JOIN salaries ON 
-employees.emp_no = salaries.emp_no; 
+CREATE TABLE titles (
+	title_id VARCHAR(30) PRIMARY KEY ,
+	title TEXT NOT NULL
+);
+-- Import data 
+-- View the table to ensure all data has been imported correctly
+SELECT * FROM titles;
 
 
--- 2. List the manager of each dept. with the following info: manager emp_no, last_name, first_name 
+
+
+
+
+
 
